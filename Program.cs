@@ -12,13 +12,12 @@ namespace AkkaNetConsole
             foyActorSystem = ActorSystem.Create("foyActorSyxtem"); //Initialize the actor system of Akka .Net
 
             //Props consoleWriterActorProps = Props.Create(typeof(ConsoleWriterActor)); //NEVER NEVER Use this syntax things will compile but won't run properly
-            Props consoleWriterActorProps = Props.Create(() => new ConsoleWriterActor());
-            IActorRef consoleWriterActor = foyActorSystem.ActorOf(consoleWriterActorProps, "consoleWriterActor"); //we name the actor for easier logging purposes
+            IActorRef consoleWriterActor = foyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()), "consoleWriterActor"); //we name the actor for easier logging purposes
 
-            Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //Lambda syntaxis
+            Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //Lambda syntax
             IActorRef validationActor = foyActorSystem.ActorOf(validationActorProps, "validationActor");
 
-            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(validationActor); //Generic syntaxis
+            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(validationActor); //Generic syntax
             IActorRef consoleReaderActor = foyActorSystem.ActorOf(consoleReaderActorProps, "consoleReaderActor");
 
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); //Start console reader actor
