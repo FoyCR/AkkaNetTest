@@ -1,5 +1,6 @@
 ﻿using System;
 using Akka.Actor;
+using Akka.Routing;
 
 namespace AkkaNetConsole
 {
@@ -15,6 +16,7 @@ namespace AkkaNetConsole
             IActorRef consoleWriterActor = foyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()), "consoleWriterActor"); //we name the actor for easier logging purposes
 
             Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //Lambda syntax
+            // Think of Props as a recipe for making an actor.Technically, Props is a configuration class that encapsulates all the information needed to make an instance of a given type of actor.
             IActorRef validationActor = foyActorSystem.ActorOf(validationActorProps, "validationActor");
 
             Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(validationActor); //Generic syntax
