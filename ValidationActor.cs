@@ -1,6 +1,5 @@
 ﻿using Akka.Actor;
 
-
 namespace AkkaNetConsole
 {
     internal class ValidationActor : UntypedActor
@@ -30,6 +29,7 @@ namespace AkkaNetConsole
 
             Sender.Tell(new Messages.ContinueProcessing());
         }
+
         private bool ValidateMessage(string message)
         {
             bool isValid = message.Length % 2 == 0;
