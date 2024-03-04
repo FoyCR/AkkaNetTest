@@ -14,12 +14,20 @@ namespace AkkaNetConsole
 
             //Props consoleWriterActorProps = Props.Create(typeof(ConsoleWriterActor)); //NEVER NEVER Use this syntax things will compile but won't run properly
             IActorRef consoleWriterActor = foyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()), "consoleWriterActor"); //we name the actor for easier logging purposes
+            //Think of Props as a recipe for making an actor.Technically, Props is a configuration class that encapsulates all the information needed to make an instance of a given type of actor.
 
-            Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //Lambda syntax
-            // Think of Props as a recipe for making an actor.Technically, Props is a configuration class that encapsulates all the information needed to make an instance of a given type of actor.
-            IActorRef validationActor = foyActorSystem.ActorOf(validationActorProps, "validationActor");
+            //Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //replaced by fileValidatorActor
+            // IActorRef validationActor = foyActorSystem.ActorOf(validationActorProps, "validationActor");
 
-            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(validationActor); //Generic syntax
+            //make TailCoordinatorActor
+            Props tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor()); //Lambda syntax
+            IActorRef tailCoordinatorActor = foyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatiorActor");
+
+            //pass tailerCoordinatorActor to fileValidatorActorProps
+            Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+            IActorRef fileValidatorActor = foyActorSystem.ActorOf(fileValidatorActorProps, "fileValidatorActor");
+
+            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(fileValidatorActor); //Generic syntax
             IActorRef consoleReaderActor = foyActorSystem.ActorOf(consoleReaderActorProps, "consoleReaderActor");
 
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); //Start console reader actor
