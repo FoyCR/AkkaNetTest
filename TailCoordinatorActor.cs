@@ -53,5 +53,26 @@ namespace AkkaNetConsole
                 Context.ActorOf(Props.Create(() => new TailActor(message.ReporterActor, message.FilePath)));
             }
         }
+
+        /// <summary>
+        /// As the TailCoordinatorActor is the supervisor (father) of TailActor
+        /// We implement this custom Supervisor strategy
+        /// </summary>
+        /// <returns></returns>
+        protected override SupervisorStrategy SupervisorStrategy()
+        {
+            return new OneForOneStrategy(
+                10,                       // Max number of retries
+                TimeSpan.FromSeconds(30),// Within time range
+                x => //local Only Decider
+                {
+                    // ArithmeticException is not an application critical. We just ignore the error and resume;
+                    if (x is ArithmeticException) return Directive.Resume;
+                    // Error that we can not recover from, stop the failing actor;
+                    else if (x is NotSupportedException) return Directive.Stop;
+                    //In all other cases, just restart the failing actor;
+                    else return Directive.Restart;
+                });
+        }
     }
 }
