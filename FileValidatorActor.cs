@@ -10,6 +10,13 @@ namespace AkkaNetConsole
     public class FileValidatorActor : UntypedActor
     {
         private readonly IActorRef _consoleWriteActor;
+
+        public FileValidatorActor(IActorRef consoleWriteActor)
+        {
+            _consoleWriteActor = consoleWriteActor;
+        }
+
+        /* The reference for the _tailCoordinatorActor is replaced by using
         private readonly IActorRef _tailCoordinatorActor;
 
         public FileValidatorActor(IActorRef consoleWriteActor, IActorRef tailCoordinatorActor)
@@ -17,6 +24,7 @@ namespace AkkaNetConsole
             _consoleWriteActor = consoleWriteActor;
             _tailCoordinatorActor = tailCoordinatorActor;
         }
+        */
 
         protected override void OnReceive(object rawMessage)
         {
@@ -36,7 +44,8 @@ namespace AkkaNetConsole
                     //Signal successful input
                     _consoleWriteActor.Tell(new Messages.InputSuccess($"Start processing for {message}"));
                     //start tail coordinator
-                    _tailCoordinatorActor.Tell(new TailCoordinatorActor.StartTail(message, _consoleWriteActor));
+                    //_tailCoordinatorActor.Tell(new TailCoordinatorActor.StartTail(message, _consoleWriteActor)); //replace by ActorSelection
+                    Context.ActorSelection($"{Constants.BaseBaseActorPath}tailCoordinatorActor").Tell(new TailCoordinatorActor.StartTail(message, _consoleWriteActor));
                 }
                 else
                 {

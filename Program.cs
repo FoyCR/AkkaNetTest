@@ -21,10 +21,11 @@ namespace AkkaNetConsole
 
             //make TailCoordinatorActor
             Props tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor()); //Lambda syntax
-            IActorRef tailCoordinatorActor = foyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatiorActor");
+            IActorRef tailCoordinatorActor = foyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
 
             //pass tailerCoordinatorActor to fileValidatorActorProps
-            Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+            // Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor)); //tailCoordinatorActor is now used by ActorSelection within the FileValidatorActor
+            Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor));
             IActorRef fileValidatorActor = foyActorSystem.ActorOf(fileValidatorActorProps, "fileValidatorActor");
 
             //the next statement is the suggested way, but in other to demonstrate ActorSelection we replaced this by another implementation

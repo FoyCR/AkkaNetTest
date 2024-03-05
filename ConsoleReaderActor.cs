@@ -37,7 +37,7 @@ namespace AkkaNetConsole
             }
             // replaced by the ActorSelection way
             //_validationActor.Tell(message);
-            Context.ActorSelection($"{BaseActorPath}fileValidatorActor").Tell(message); //we use the name of the actor (named in program.cs), not the class name
+            Context.ActorSelection($"{Constants.BaseBaseActorPath}fileValidatorActor").Tell(message); //we use the name of the actor (named in program.cs), not the class name
         }
 
         private void printInstructions()
