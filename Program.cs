@@ -16,7 +16,7 @@ namespace AkkaNetConsole
             IActorRef consoleWriterActor = foyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()), "consoleWriterActor"); //we name the actor for easier logging purposes
             //Think of Props as a recipe for making an actor.Technically, Props is a configuration class that encapsulates all the information needed to make an instance of a given type of actor.
 
-            //Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //replaced by fileValidatorActor
+            // Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor)); //replaced by fileValidatorActor
             // IActorRef validationActor = foyActorSystem.ActorOf(validationActorProps, "validationActor");
 
             //make TailCoordinatorActor
@@ -27,7 +27,9 @@ namespace AkkaNetConsole
             Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
             IActorRef fileValidatorActor = foyActorSystem.ActorOf(fileValidatorActorProps, "fileValidatorActor");
 
-            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(fileValidatorActor); //Generic syntax
+            //the next statement is the suggested way, but in other to demonstrate ActorSelection we replaced this by another implementation
+            //Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>(fileValidatorActor); //Generic syntax
+            Props consoleReaderActorProps = Props.Create<ConsoleReaderActor>();
             IActorRef consoleReaderActor = foyActorSystem.ActorOf(consoleReaderActorProps, "consoleReaderActor");
 
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); //Start console reader actor

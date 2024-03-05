@@ -6,12 +6,15 @@ namespace AkkaNetConsole
     {
         public const string ExitCommand = "quit";
         public const string StartCommand = "start";
-        private IActorRef _validationActor;
+        private const string BaseActorPath = "akka://foyActorSyxtem/user/";
+        /* This is the prefer way to this but in order to demonstrate ActorSelection we are no use it
+         * private IActorRef _validationActor;
 
         public ConsoleReaderActor(IActorRef validationActor)
         {
             _validationActor = validationActor;
         }
+        */
 
         protected override void OnReceive(object rawMessage)
         {
@@ -32,7 +35,9 @@ namespace AkkaNetConsole
                 Context.System.Terminate();
                 return;
             }
-            _validationActor.Tell(message);
+            // replaced by the ActorSelection way
+            //_validationActor.Tell(message);
+            Context.ActorSelection($"{BaseActorPath}fileValidatorActor").Tell(message); //we use the name of the actor (named in program.cs), not the class name
         }
 
         private void printInstructions()
