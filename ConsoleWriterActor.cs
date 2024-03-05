@@ -17,7 +17,7 @@ namespace AkkaNetConsole
                 Console.WriteLine(success.Reason);
             }
             else
-                Console.WriteLine(rawMessage);
+                Console.Write(rawMessage);
             Console.ResetColor();
         }
     }
