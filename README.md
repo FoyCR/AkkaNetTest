@@ -1,9 +1,10 @@
-# AkkaNetTest
+# Foy AkkaNetTest
 
-I'm following a boot camp from Petabridge in order to start playing around with the [Akka .Net Library](https://getakka.net/articles/intro/what-is-akka.html) which is an implementation of the Actor Model.
+I'm following the "**Akka.NET Bootcamp - Unit 1: Beginning Akka.NET **" from Petabridge in order to start playing around with the [Akka .Net Library](https://getakka.net/articles/intro/what-is-akka.html) which is an implementation of the Actor Model.
+In Unit 1, we will learn the fundamentals of how the actor model and Akka.NET work.
 
 ## Current Flow
-The idea is to create a console utility that monitor (tail) log files. Show the initial contents of the file and when a line is appended to file, that line is showed in the console (tail).
+> "*NIX systems have the tail command built-in to monitor changes to a file (such as tailing log files), whereas Windows does not. We will recreate tail for Windows, and use the process to learn the fundamentals."
 
 The current workflow is as follows:
 - The *consoleReaderActor* actor starts and prints instructions to the console to capture the path to the file to be provided by the user.
