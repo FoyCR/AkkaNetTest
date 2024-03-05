@@ -1,6 +1,6 @@
 # Foy AkkaNetTest
 
-I'm following the "**Akka.NET Bootcamp - Unit 1: Beginning Akka.NET **" from Petabridge in order to start playing around with the [Akka .Net Library](https://getakka.net/articles/intro/what-is-akka.html) which is an implementation of the Actor Model.
+I'm following the **Akka.NET Bootcamp - Unit 1: Beginning Akka.NET** from Petabridge in order to start playing around with the [Akka .Net Library](https://getakka.net/articles/intro/what-is-akka.html) which is an implementation of the Actor Model.
 In Unit 1, we will learn the fundamentals of how the actor model and Akka.NET work.
 
 ## Current Flow
